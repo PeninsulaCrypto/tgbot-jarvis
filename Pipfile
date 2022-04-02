@@ -10,6 +10,7 @@ autopep8 = "*"
 flask = "*"
 python-telegram-bot = "*"
 python-dotenv = "*"
+pytz = "*"
 
 [requires]
 python_version = "3.8"

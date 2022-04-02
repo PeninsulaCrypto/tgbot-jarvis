@@ -1,26 +1,19 @@
+# -*- coding: utf-8 -*-
+"""handlers
+
+Descriptions...
+"""
+
 from telegram import Update
-from telegram.ext import CallbackContext, Updater, CommandHandler
+from telegram.ext import CallbackContext
 
-
-def start(update: Update, context: CallbackContext) -> None:
-    """Sends explanation on how to use the bot."""
-    update.message.reply_text('Hi! Use /set <seconds> to set a timer')
+from jarvis.utils.job_helper import remove_job_if_exists
 
 
 def alarm(context: CallbackContext) -> None:
     """Send the alarm message."""
     job = context.job
     context.bot.send_message(job.context, text='Beep!')
-
-
-def remove_job_if_exists(name: str, context: CallbackContext) -> bool:
-    """Remove job with given name. Returns whether job was removed."""
-    current_jobs = context.job_queue.get_jobs_by_name(name)
-    if not current_jobs:
-        return False
-    for job in current_jobs:
-        job.schedule_removal()
-    return True
 
 
 def set_timer(update: Update, context: CallbackContext) -> None:
@@ -52,18 +45,3 @@ def unset(update: Update, context: CallbackContext) -> None:
     job_removed = remove_job_if_exists(str(chat_id), context)
     text = 'Timer successfully cancelled!' if job_removed else 'You have no active timer'
     update.message.reply_text(text)
-
-
-def enable_timer_event_updater(token: str) -> Updater:
-    # create updater
-    updater = Updater(token)
-    dispatcher = updater.dispatcher
-
-    dispatcher.add_handler(CommandHandler('start', start))
-    dispatcher.add_handler(CommandHandler('help', start))
-    dispatcher.add_handler(CommandHandler('set', set_timer))
-    dispatcher.add_handler(CommandHandler('unset', unset))
-
-    updater.start_polling()
-
-    return updater
