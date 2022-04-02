@@ -8,4 +8,7 @@ if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
 if __name__ == '__main__':
-    main(app_config=dotenv_values('.env'))
+    main(app_config={
+        **dotenv_values('.env'),
+        **os.environ,
+    })
