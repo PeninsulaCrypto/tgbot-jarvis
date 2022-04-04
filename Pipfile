@@ -1,6 +1,6 @@
 [[source]]
 name = "pypi"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
@@ -11,6 +11,7 @@ flask = "*"
 python-telegram-bot = "*"
 python-dotenv = "*"
 pytz = "*"
+"backports.zoneinfo" = "*"
 
 [requires]
 python_version = "3.8"
